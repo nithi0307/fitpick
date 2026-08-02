@@ -76,3 +76,118 @@ To provide users with a simple, modern, and organized platform that makes wardro
 - Internet connection required.
 - Initial version supports only registered users.
 - AI outfit recommendations are outside the scope of this version.
+---
+
+# Folder Structure
+
+```text
+fitpick/
+├── frontend/
+├── backend/
+├── database/
+│   ├── datasets/
+│   ├── schema.sql
+│   └── seed.sql
+├── docker/
+├── docs/
+│   ├── architecture/
+│   ├── wireframes/
+│   ├── screenshots/
+│   └── report/
+├── README.md
+├── docker-compose.yml
+└── .gitignore
+```
+
+---
+
+# Technology Stack
+
+| Component | Technology |
+|----------|------------|
+| Frontend | React (Vite) |
+| Backend | FastAPI |
+| Database | PostgreSQL |
+| Version Control | Git & GitHub |
+| Containerization | Docker |
+| UI Design | Figma |
+| Architecture Diagram | Draw.io |
+
+---
+
+# Branching Strategy
+
+This project follows the GitHub Flow branching strategy.
+
+- **main** – Stable production-ready branch
+- **feature/*** – Used for developing individual features
+
+Example feature branches:
+
+- feature-login
+- feature-dashboard
+- feature-outfit-builder
+
+Each feature is developed independently and merged into the `main` branch after testing.
+
+---
+
+# Quick Start
+
+### Clone Repository
+
+```bash
+git clone https://github.com/nithi0307/fitpick.git
+```
+
+### Navigate to Project
+
+```bash
+cd fitpick
+```
+
+### Run Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend will run at:
+
+```
+http://localhost:5173
+```
+
+---
+
+# Local Development Tools
+
+- Visual Studio Code
+- Node.js
+- React + Vite
+- FastAPI
+- PostgreSQL
+- Docker Desktop
+- Git
+- GitHub
+
+---
+
+# Future Enhancements
+
+- AI-based outfit recommendations
+- Weather-based outfit suggestions
+- Mobile application support
+- Barcode scanning for clothing
+- Outfit sharing with friends
+- Wardrobe analytics dashboard
+
+---
+
+# Authors
+
+Nithilan A
+
+Software Engineering Project
