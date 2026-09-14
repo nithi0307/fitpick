@@ -1,0 +1,103 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="fitpick-arch" name="FitPick Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="title" value="FitPick – High-Level Architecture (Layered / 3-Tier)" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="60" y="20" width="700" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- User -->
+        <mxCell id="user" value="User&#10;(Web Browser)" style="shape=umlActor;verticalLabelPosition=top;verticalAlign=bottom;html=1;outlineConnect=0;strokeColor=#111827;strokeWidth=2;fontSize=13;fontColor=#111827;" vertex="1" parent="1">
+          <mxGeometry x="385" y="110" width="50" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Docker Compose boundary -->
+        <mxCell id="docker" value="Docker Compose environment (docker-compose.yml)" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;strokeColor=#6b7280;strokeWidth=2;fillColor=none;verticalAlign=top;align=left;spacingLeft=12;spacingTop=6;fontSize=12;fontStyle=2;fontColor=#6b7280;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="60" y="205" width="700" height="755" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Presentation tier ===== -->
+        <mxCell id="frontend" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eff6ff;strokeColor=#3b82f6;strokeWidth=2;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="110" y="240" width="600" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="frontendTitle" value="Presentation Tier — React + Vite frontend (container, port 5173)" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#1d4ed8;" vertex="1" parent="1">
+          <mxGeometry x="125" y="250" width="560" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="pages" value="pages/&#10;Login · Dashboard · Wardrobe&#10;AddClothing · OutfitBuilder · Profile" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#3b82f6;fontSize=11;fontColor=#111827;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="130" y="290" width="175" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="components" value="components/&#10;Layout · Sidebar · Navbar&#10;Button · Card" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#3b82f6;fontSize=11;fontColor=#111827;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="322" y="290" width="175" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="services" value="services/api.js&#10;single HTTP client&#10;(fetch → JSON)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#3b82f6;fontSize=11;fontColor=#111827;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="514" y="290" width="175" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="pagesToComponents" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3b82f6;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1" source="pages" target="components">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="pagesToServices" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3b82f6;endArrow=open;endFill=0;dashed=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="pages" target="services">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="313" y="372"/>
+              <mxPoint x="313" y="410"/>
+              <mxPoint x="506" y="410"/>
+              <mxPoint x="506" y="372"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ===== Application tier ===== -->
+        <mxCell id="backend" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0fdf4;strokeColor=#16a34a;strokeWidth=2;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="110" y="500" width="600" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="backendTitle" value="Application Tier — FastAPI backend (container, port 8000)" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#15803d;" vertex="1" parent="1">
+          <mxGeometry x="125" y="510" width="560" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="routers" value="routers/&#10;clothing.py · outfits.py&#10;(HTTP endpoints)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#16a34a;fontSize=11;fontColor=#111827;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="130" y="550" width="175" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="schemasBox" value="schemas.py&#10;Pydantic models&#10;(API contract)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#16a34a;fontSize=11;fontColor=#111827;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="322" y="550" width="175" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="repos" value="repositories/&#10;ClothingRepository&#10;OutfitRepository&#10;(data access)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#16a34a;fontSize=11;fontColor=#111827;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="514" y="550" width="175" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="routersToSchemas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1" source="routers" target="schemasBox">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="schemasToRepos" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1" source="schemasBox" target="repos">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Data tier ===== -->
+        <mxCell id="database" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fefce8;strokeColor=#ca8a04;strokeWidth=2;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="110" y="760" width="600" height="170" as="geometry"/>
+        </mxCell>
+        <mxCell id="databaseTitle" value="Data Tier — PostgreSQL 16 (container port 5432, host port 5433)" style="text;html=1;align=left;verticalAlign=middle;fontSize=14;fontStyle=1;fontColor=#a16207;" vertex="1" parent="1">
+          <mxGeometry x="125" y="770" width="560" height="26" as="geometry"/>
+        </mxCell>
+        <mxCell id="dbIcon" value="" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fillColor=#ffffff;strokeColor=#ca8a04;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="150" y="810" width="90" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="tables" value="database/schema.sql&#10;&#10;users · clothing_items · outfits · outfit_items&#10;&#10;database/seed.sql — sample data for development" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#ca8a04;fontSize=11;fontColor=#111827;arcSize=10;align=left;spacingLeft=12;" vertex="1" parent="1">
+          <mxGeometry x="270" y="810" width="419" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== Main flow arrows ===== -->
+        <mxCell id="userToFrontend" value="HTTPS · renders pages" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=11;fontColor=#111827;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="user" target="frontend">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="frontendToBackend" value="REST API · JSON over HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=11;fontColor=#111827;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="frontend" target="backend">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="backendToDatabase" value="SQL queries" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#111827;strokeWidth=2;endArrow=block;endFill=1;startArrow=block;startFill=1;fontSize=11;fontColor=#111827;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="backend" target="database">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
