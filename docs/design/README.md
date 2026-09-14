@@ -7,14 +7,14 @@ docs/design/
 ├── architecture/
 │   ├── fitpick-architecture.drawio   # editable Draw.io source
 │   └── fitpick-architecture.png      # PNG export
-├── wireframes/                       # screenshots of the six Figma screens
+├── wireframes/                       # screenshots of the six screens (Figma design, React implementation)
 │   ├── 01-login.png
 │   ├── 02-dashboard.png
 │   ├── 03-wardrobe.png
 │   ├── 04-add-clothing.png
 │   ├── 05-outfit-builder.png
 │   └── 06-profile.png
-├── FitPick-Software-Design-Document.pdf
+├── FitPick-Software-Design-Document.pdf   # the report (docx source alongside)
 └── README.md
 ```
 
@@ -24,7 +24,9 @@ docs/design/
 
 Layered / three-tier architecture: React frontend → FastAPI REST backend → PostgreSQL database, orchestrated with Docker Compose. Open the `.drawio` file at https://app.diagrams.net to edit it.
 
-## UI screens (Figma)
+## UI screens
+
+The six screens were designed in Figma and implemented as React pages; the PNGs are 2× screenshots of the implemented screens.
 
 | # | Screen | File |
 |---|---|---|

@@ -109,7 +109,7 @@ Design deliverables for Digital Assignment 2 live in [`docs/design/`](docs/desig
 
 ### UI Design (Figma)
 
-Screenshots of the six Figma screens are in [`docs/design/wireframes/`](docs/design/wireframes/):
+The six screens were designed in Figma and implemented in React; screenshots of the implemented screens are in [`docs/design/wireframes/`](docs/design/wireframes/):
 [Login / Sign Up](docs/design/wireframes/01-login.png) ·
 [Dashboard](docs/design/wireframes/02-dashboard.png) ·
 [My Wardrobe](docs/design/wireframes/03-wardrobe.png) ·
