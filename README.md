@@ -69,22 +69,46 @@ fitpick/
 ├── frontend/                 # React + Vite single-page app
 │   └── src/
 │       ├── pages/            # One component per screen (Login, Dashboard, ...)
-│       ├── components/       # Reusable UI (Layout, Sidebar, Navbar, Button, Card)
+│       ├── components/       # Reusable UI (Layout, Sidebar, Topbar, Button, Card, Charts)
 │       ├── services/api.js   # The only module that talks to the backend
 │       └── styles/global.css # Design tokens and shared styles
 ├── backend/                  # FastAPI application
 │   ├── main.py               # App factory: CORS + router registration
-│   ├── routers/              # HTTP endpoints (clothing.py, outfits.py)
+│   ├── routers/              # HTTP endpoints (clothing, outfits, stats)
 │   ├── schemas.py            # Pydantic models = the API contract
-│   └── repositories/         # Data access, hidden behind one class per entity
+│   ├── services/             # Analytics calculations
+│   ├── repositories/         # Storage behind one interface (in-memory | PostgreSQL)
+│   └── tests/                # 46 automated tests
 ├── database/
 │   ├── schema.sql            # PostgreSQL tables
 │   └── seed.sql              # Sample data for development
 ├── docs/
-│   └── design/               # Software design deliverables (see below)
+│   ├── design/               # diagrams (.drawio + .png), wireframes, design document
+│   ├── screenshots/          # application screens and test / build evidence
+│   └── *.pdf                 # project report and testing report
 ├── docker-compose.yml
 └── README.md
 ```
+
+## Testing
+
+```bash
+cd backend
+python3.13 -m venv .venv
+.venv/bin/pip install -r requirements-dev.txt
+.venv/bin/python -m pytest        # 46 tests: unit, integration, regression
+.venv/bin/mutmut run              # mutation testing (100% mutation score)
+```
+
+| Suite | Tests |
+|---|---|
+| Integration (`tests/test_integration_*.py`) | 25 |
+| Regression (`tests/test_regression.py`) | 10 |
+| Unit (`tests/test_analytics_unit.py`) | 11 |
+| **Total** | **46** |
+
+The suite runs without a database: the repository factory returns the in-memory
+implementation unless `DATABASE_URL` is set.
 
 ## Technology Stack
 
@@ -106,6 +130,22 @@ Design deliverables for Digital Assignment 2 live in [`docs/design/`](docs/desig
 
 - Editable source: [`docs/design/architecture/fitpick-architecture.drawio`](docs/design/architecture/fitpick-architecture.drawio)
 - PNG export: [`docs/design/architecture/fitpick-architecture.png`](docs/design/architecture/fitpick-architecture.png)
+
+### Diagrams
+
+Data flow, entity relationship and UML diagrams live in [`docs/design/diagrams/`](docs/design/diagrams/), each with its editable `.drawio` source beside the PNG:
+[DFD level 0](docs/design/diagrams/dfd-level-0.png) ·
+[DFD level 1](docs/design/diagrams/dfd-level-1.png) ·
+[ERD](docs/design/diagrams/erd.png) ·
+[Use case](docs/design/diagrams/use-case.png) ·
+[Class](docs/design/diagrams/class-diagram.png) ·
+[Sequence](docs/design/diagrams/sequence-add-clothing.png)
+
+### Reports
+
+- [Project Report](docs/FitPick-Project-Report.pdf) — problem statement, user stories, architecture and design, design of tests, SRS/DFD/ERD/UML appendices
+- [Testing and Build Report](docs/FitPick-Testing-and-Build-Report.pdf) — integration, regression and mutation testing, version management, system building, tools
+- [Software Design Document](docs/design/FitPick-Software-Design-Document.pdf) — design principles, architecture rationale, UI design
 
 ### UI Design (Figma)
 
@@ -159,7 +199,6 @@ cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 ## Future Enhancements
 
-- Persist data through a PostgreSQL-backed repository (the repository interface is already in place)
 - Real authentication with hashed passwords and sessions
 - Image upload for clothing items
 - Outfit suggestions based on occasion and weather
