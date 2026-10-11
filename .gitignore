@@ -22,3 +22,6 @@ venv/
 
 # Logs
 *.log
+.mutmut-cache
+mutants/
+.pytest_cache/
