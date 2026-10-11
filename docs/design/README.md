@@ -24,6 +24,11 @@ docs/design/
 
 Layered / three-tier architecture: React frontend → FastAPI REST backend → PostgreSQL database, orchestrated with Docker Compose. Open the `.drawio` file at https://app.diagrams.net to edit it.
 
+> **Note:** `wireframes/` holds the six screens as they stood when the Software
+> Design Document was submitted. The interface was rebuilt afterwards; the
+> current screens are in [`docs/screenshots/`](../screenshots/) and in the
+> Project Report and Testing Report.
+
 ## UI screens
 
 The six screens were designed in Figma and implemented as React pages; the PNGs are 2× screenshots of the implemented screens.

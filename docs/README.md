@@ -14,7 +14,7 @@ docs/
 │   ├── architecture/        fitpick-architecture.drawio + .png
 │   ├── diagrams/            dfd-level-0, dfd-level-1, erd, use-case,
 │   │                        class-diagram, sequence-add-clothing  (.drawio + .png)
-│   ├── wireframes/          the six designed screens
+│   ├── wireframes/          the six screens as submitted with the design document
 │   └── FitPick-Software-Design-Document.pdf
 └── screenshots/
     ├── 01-login … 06-profile-analytics      application screens
