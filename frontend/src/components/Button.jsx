@@ -1,19 +1,28 @@
-// Single button component used across every page so all buttons share
-// the same look. The `variant` prop selects the style; callers never
-// touch CSS directly.
+/**
+ * The only button in the application.
+ * `variant` picks the style; callers never write CSS of their own.
+ */
 export default function Button({
   children,
   variant = "primary",
+  size = "md",
   block = false,
+  between = false,
   type = "button",
-  onClick,
+  ...rest
 }) {
-  const classes = ["btn", `btn--${variant}`, block ? "btn--block" : ""]
+  const classes = [
+    "btn",
+    `btn--${variant}`,
+    size === "lg" && "btn--lg",
+    block && "btn--block",
+    between && "btn--between",
+  ]
     .filter(Boolean)
     .join(" ");
 
   return (
-    <button type={type} className={classes} onClick={onClick}>
+    <button type={type} className={classes} {...rest}>
       {children}
     </button>
   );

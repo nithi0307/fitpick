@@ -1,10 +1,14 @@
-// Generic white rounded container with a soft shadow. Pages compose
-// stats, clothing items, outfits and forms out of this one element.
-export default function Card({ title, children, className = "" }) {
+/** White rounded panel with an optional titled header. */
+export default function Card({ title, action, children, bodyClass = "", className = "" }) {
   return (
-    <div className={`card ${className}`.trim()}>
-      {title && <div className="card__title">{title}</div>}
-      {children}
-    </div>
+    <section className={`card ${className}`.trim()}>
+      {title && (
+        <header className="card__head">
+          <h3 className="card__title">{title}</h3>
+          {action && <div className="card__action">{action}</div>}
+        </header>
+      )}
+      <div className={`card__body ${bodyClass}`.trim()}>{children}</div>
+    </section>
   );
 }

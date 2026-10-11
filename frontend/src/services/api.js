@@ -1,6 +1,8 @@
-// The only place in the frontend that knows the backend URL and how to
-// talk to it. Pages call these functions and receive plain JavaScript
-// objects, so swapping the backend or its URL touches this file only.
+/**
+ * The only module that knows the backend URL and how to talk to it.
+ * Pages call these functions and receive plain JavaScript objects, so the
+ * API can move or change shape without touching any screen.
+ */
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 
@@ -14,20 +16,42 @@ async function request(path, options = {}) {
     throw new Error(`Request failed: ${response.status}`);
   }
 
-  return response.json();
+  return response.status === 204 ? null : response.json();
 }
 
-export function getClothingItems() {
-  return request("/clothing");
+function query(params) {
+  const search = new URLSearchParams(
+    Object.entries(params).filter(([, value]) => value !== "" && value != null)
+  );
+  return search.toString() ? `?${search}` : "";
 }
 
-export function createClothingItem(item) {
-  return request("/clothing", {
-    method: "POST",
-    body: JSON.stringify(item),
-  });
-}
+/* ---------- clothing ---------- */
 
-export function getOutfits() {
-  return request("/outfits");
-}
+export const getClothingItems = (filters = {}) => request(`/clothing${query(filters)}`);
+
+export const createClothingItem = (item) =>
+  request("/clothing", { method: "POST", body: JSON.stringify(item) });
+
+export const updateClothingItem = (id, changes) =>
+  request(`/clothing/${id}`, { method: "PUT", body: JSON.stringify(changes) });
+
+export const deleteClothingItem = (id) => request(`/clothing/${id}`, { method: "DELETE" });
+
+export const toggleClothingFavourite = (id) =>
+  request(`/clothing/${id}/favourite`, { method: "POST" });
+
+/* ---------- outfits ---------- */
+
+export const getOutfits = () => request("/outfits");
+
+export const createOutfit = (outfit) =>
+  request("/outfits", { method: "POST", body: JSON.stringify(outfit) });
+
+export const toggleOutfitFavourite = (id) => request(`/outfits/${id}/favourite`, { method: "POST" });
+
+/* ---------- statistics ---------- */
+
+export const getDashboardStats = () => request("/stats/dashboard");
+
+export const getAnalytics = () => request("/stats/analytics");

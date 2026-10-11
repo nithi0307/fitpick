@@ -1,54 +1,215 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Card from "../components/Card";
 import Button from "../components/Button";
+import Card from "../components/Card";
+import Garment from "../components/Garment";
+import Icon from "../components/Icon";
+import StatCard from "../components/StatCard";
+import Topbar from "../components/Topbar";
+import { BarList } from "../components/Charts";
+import { getClothingItems, getDashboardStats, getOutfits } from "../services/api";
 
-const stats = [
-  { label: "Clothing items", value: 42 },
-  { label: "Saved outfits", value: 8 },
-  { label: "Favourites", value: 5 },
-  { label: "Added this week", value: 3 },
-];
-
-const recentItems = ["White Oxford Shirt", "Navy Chinos", "Black Sneakers"];
-
+/** Overview screen: headline figures, recent additions and quick actions. */
 export default function Dashboard() {
+  const [stats, setStats] = useState(null);
+  const [recent, setRecent] = useState([]);
+  const [outfits, setOutfits] = useState([]);
+  const [status, setStatus] = useState("loading");
+
+  useEffect(() => {
+    Promise.all([getDashboardStats(), getClothingItems({ sort: "newest" }), getOutfits()])
+      .then(([dashboard, items, savedOutfits]) => {
+        setStats(dashboard);
+        setRecent(items.slice(0, 5));
+        setOutfits(savedOutfits);
+        setStatus("ready");
+      })
+      .catch(() => setStatus("error"));
+  }, []);
+
+  const [allItems, setAllItems] = useState([]);
+  useEffect(() => {
+    getClothingItems().then(setAllItems).catch(() => {});
+  }, []);
+
+  const itemsById = Object.fromEntries(allItems.map((item) => [item.id, item]));
+  const suggestion = outfits.find((outfit) => outfit.is_favourite) ?? outfits[0] ?? null;
+
   return (
     <>
-      <div className="page-header">
-        <div>
-          <h2>Welcome back</h2>
-          <p>Here is a quick overview of your wardrobe.</p>
-        </div>
+      <Topbar title="Dashboard" subtitle="Your wardrobe at a glance">
         <Link to="/add-clothing">
-          <Button>+ Add clothing</Button>
+          <Button>
+            <Icon name="plus" size={14} /> Add New Clothing
+          </Button>
         </Link>
-      </div>
+      </Topbar>
 
-      <div className="grid grid--stats" style={{ marginBottom: 24 }}>
-        {stats.map((stat) => (
-          <Card key={stat.label} title={stat.label}>
-            <div className="stat">{stat.value}</div>
-          </Card>
-        ))}
-      </div>
+      <div className="content">
+        {status === "loading" && <p className="spinner-row">Loading your wardrobe…</p>}
+        {status === "error" && (
+          <p className="spinner-row">Could not reach the FitPick API on port 8000.</p>
+        )}
 
-      <div className="grid" style={{ gridTemplateColumns: "2fr 1fr" }}>
-        <Card title="Recently added">
-          <ul style={{ listStyle: "none" }}>
-            {recentItems.map((item) => (
-              <li key={item} style={{ padding: "10px 0", borderBottom: "1px solid var(--border)" }}>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </Card>
+        {stats && (
+          <>
+            <div className="grid grid--stats" style={{ marginBottom: 14 }}>
+              <StatCard
+                icon="hanger"
+                value={stats.total_items}
+                label="Total Clothes"
+                note={`+${stats.added_this_week} this week`}
+              />
+              <StatCard
+                icon="layers"
+                value={stats.total_outfits}
+                label="Outfits Created"
+                note="Across all occasions"
+              />
+              <StatCard
+                icon="heart"
+                value={stats.favourites}
+                label="Favourites"
+                note="Pieces you reach for"
+              />
+              <StatCard
+                icon="trend"
+                value={stats.most_worn}
+                label="Most Worn"
+                note={`Worn ${stats.most_worn_count}× total`}
+                text
+              />
+            </div>
 
-        <Card title="Quick actions">
-          <div style={{ display: "grid", gap: 10 }}>
-            <Link to="/outfit-builder"><Button variant="secondary" block>Build an outfit</Button></Link>
-            <Link to="/wardrobe"><Button variant="secondary" block>Browse wardrobe</Button></Link>
-          </div>
-        </Card>
+            <div className="grid grid--main">
+              <div className="stack">
+              <Card
+                title="Recently Added"
+                action={
+                  <Link to="/wardrobe" className="card__action">
+                    View all <Icon name="chevronRight" size={13} />
+                  </Link>
+                }
+                bodyClass="card__body--tight"
+              >
+                <div className="rows">
+                  {recent.map((item) => (
+                    <div className="row" key={item.id}>
+                      <span className="row__thumb">
+                        <Garment item={item} />
+                      </span>
+                      <span>
+                        <span className="row__name">{item.name}</span>
+                        <br />
+                        <span className="row__sub">
+                          {item.brand} · {item.category}
+                        </span>
+                      </span>
+                      <span className="row__right">
+                        <span className="chip chip--grey">{item.season}</span>
+                        {item.is_favourite && (
+                          <Icon name="heart" size={13} fill="var(--pink)" color="var(--pink)" strokeWidth={0} />
+                        )}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+
+              <Card title="Your Outfits" action={`${outfits.length} saved`} bodyClass="card__body--tight">
+                <div className="rows">
+                  {outfits.map((outfit) => (
+                    <Link className="row" key={outfit.id} to={`/outfit-builder?outfit=${outfit.id}`}>
+                      <span style={{ display: "flex" }}>
+                        {outfit.item_ids.slice(0, 3).map((id, index) =>
+                          itemsById[id] ? (
+                            <span
+                              className="row__thumb"
+                              key={id}
+                              style={{ marginLeft: index ? -9 : 0, border: "2px solid #fff" }}
+                            >
+                              <Garment item={itemsById[id]} />
+                            </span>
+                          ) : null
+                        )}
+                      </span>
+                      <span>
+                        <span className="row__name">{outfit.name}</span>
+                        <br />
+                        <span className="row__sub">
+                          {outfit.occasion} · {outfit.item_ids.length} pieces
+                        </span>
+                      </span>
+                      <span className="row__right">
+                        {outfit.is_favourite && (
+                          <Icon name="heart" size={13} fill="var(--pink)" color="var(--pink)" strokeWidth={0} />
+                        )}
+                        <Icon name="chevronRight" size={14} color="var(--muted)" />
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </Card>
+              </div>
+
+              <div className="stack">
+                <Card title="Quick Actions">
+                  <div style={{ display: "grid", gap: 8 }}>
+                    <Link to="/add-clothing">
+                      <Button block between>
+                        <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                          <Icon name="plus" size={14} /> Add New Clothing
+                        </span>
+                        <Icon name="arrowRight" size={14} />
+                      </Button>
+                    </Link>
+                    <Link to="/outfit-builder">
+                      <Button variant="dark" block between>
+                        <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                          <Icon name="layers" size={14} /> Create Outfit
+                        </span>
+                        <Icon name="arrowRight" size={14} />
+                      </Button>
+                    </Link>
+                    <Link to="/wardrobe">
+                      <Button variant="ghost" block between>
+                        <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                          <Icon name="shuffle" size={14} /> Browse Wardrobe
+                        </span>
+                        <Icon name="arrowRight" size={14} />
+                      </Button>
+                    </Link>
+                  </div>
+                </Card>
+
+                <Card title="Wardrobe Breakdown">
+                  <BarList data={stats.breakdown} />
+                </Card>
+
+                {suggestion && (
+                  <div className="banner">
+                    <div className="banner__eyebrow">
+                      <Icon name="star" size={12} fill="currentColor" strokeWidth={0} />
+                      Saved Outfit
+                    </div>
+                    <div className="banner__title">{suggestion.name}</div>
+                    <div className="banner__text">
+                      {suggestion.occasion} · {suggestion.item_ids.length} pieces
+                      {suggestion.item_ids
+                        .map((id) => itemsById[id]?.name)
+                        .filter(Boolean)
+                        .slice(0, 2)
+                        .map((name) => ` · ${name}`)}
+                    </div>
+                    <Link to={`/outfit-builder?outfit=${suggestion.id}`} className="banner__link">
+                      Open in builder <Icon name="chevronRight" size={12} />
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

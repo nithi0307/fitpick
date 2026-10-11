@@ -7,8 +7,10 @@ import AddClothing from "./pages/AddClothing";
 import OutfitBuilder from "./pages/OutfitBuilder";
 import Profile from "./pages/Profile";
 
-// Route table for the whole app. Login stands alone; every other page
-// is nested under Layout so it automatically gets the sidebar + navbar.
+/**
+ * Route table. Login stands alone; every other screen is nested inside
+ * Layout and therefore gets the sidebar automatically.
+ */
 export default function App() {
   return (
     <BrowserRouter>

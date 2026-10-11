@@ -1,64 +1,120 @@
 import { useEffect, useState } from "react";
-import Card from "../components/Card";
-import { getClothingItems } from "../services/api";
+import { Link } from "react-router-dom";
+import Button from "../components/Button";
+import Icon from "../components/Icon";
+import ItemCard from "../components/ItemCard";
+import Topbar from "../components/Topbar";
+import { getClothingItems, toggleClothingFavourite } from "../services/api";
 
-// My Wardrobe: loads items from the backend and lets the user search
-// and filter them. The page only knows about `getClothingItems`, not
-// about URLs or HTTP.
+const CATEGORIES = ["All", "Tops", "Bottoms", "Dresses", "Outerwear", "Shoes", "Accessories"];
+const SEASONS = ["All", "S/S", "F/W", "All Season"];
+
+/**
+ * My Wardrobe: search, filter and sort the collection.
+ * Filtering happens on the server so the same rules apply to every client.
+ */
 export default function Wardrobe() {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("loading");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
+  const [season, setSeason] = useState("All");
+  const [sort, setSort] = useState("newest");
 
   useEffect(() => {
-    getClothingItems()
+    let cancelled = false;
+    getClothingItems({ search, category, season, sort })
       .then((data) => {
-        setItems(data);
-        setStatus("ready");
+        if (!cancelled) {
+          setItems(data);
+          setStatus("ready");
+        }
       })
-      .catch(() => setStatus("error"));
-  }, []);
+      .catch(() => !cancelled && setStatus("error"));
+    return () => {
+      cancelled = true;
+    };
+  }, [search, category, season, sort]);
 
-  const categories = ["All", ...new Set(items.map((item) => item.category))];
-
-  const visible = items.filter(
-    (item) =>
-      (category === "All" || item.category === category) &&
-      item.name.toLowerCase().includes(search.toLowerCase())
-  );
+  async function handleFavourite(item) {
+    const updated = await toggleClothingFavourite(item.id);
+    setItems((current) => current.map((i) => (i.id === updated.id ? updated : i)));
+  }
 
   return (
     <>
+      <Topbar title="My Wardrobe" subtitle={`${items.length} pieces in your collection`}>
+        <Link to="/add-clothing">
+          <Button>
+            <Icon name="plus" size={14} /> Add Clothing
+          </Button>
+        </Link>
+      </Topbar>
+
       <div className="toolbar">
-        <input
-          type="search"
-          placeholder="Search clothing…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          {categories.map((c) => (
-            <option key={c}>{c}</option>
+        <label className="search">
+          <Icon name="search" size={15} />
+          <input
+            type="search"
+            placeholder="Search your wardrobe…"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+        </label>
+
+        <div className="filters">
+          <Icon name="filter" size={15} color="var(--muted)" />
+          {CATEGORIES.map((name) => (
+            <button
+              key={name}
+              className={`pill ${category === name ? "pill--on" : ""}`.trim()}
+              onClick={() => setCategory(name)}
+            >
+              {name}
+            </button>
           ))}
+
+          <span className="filters__divider" />
+
+          {SEASONS.map((name) => (
+            <button
+              key={name}
+              className={`pill ${season === name ? "pill--on" : ""}`.trim()}
+              onClick={() => setSeason(name)}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+
+        <select
+          className="select"
+          value={sort}
+          onChange={(event) => setSort(event.target.value)}
+          style={{ marginLeft: "auto" }}
+          aria-label="Sort wardrobe"
+        >
+          <option value="newest">Newest first</option>
+          <option value="name">Name A–Z</option>
+          <option value="most-worn">Most worn</option>
+          <option value="price">Highest price</option>
         </select>
       </div>
 
-      {status === "loading" && <p className="message">Loading your wardrobe…</p>}
-      {status === "error" && (
-        <p className="message">Could not reach the FitPick backend. Is it running?</p>
-      )}
+      <div className="content">
+        {status === "loading" && <p className="spinner-row">Loading your wardrobe…</p>}
+        {status === "error" && (
+          <p className="spinner-row">Could not reach the FitPick API on port 8000.</p>
+        )}
+        {status === "ready" && items.length === 0 && (
+          <p className="empty">No pieces match these filters yet.</p>
+        )}
 
-      <div className="grid grid--items">
-        {visible.map((item) => (
-          <Card key={item.id}>
-            <div className="item-card__image">{item.category}</div>
-            <strong>{item.name}</strong>
-            <div className="item-card__meta">
-              {item.colour} · <span className="tag">{item.occasion}</span>
-            </div>
-          </Card>
-        ))}
+        <div className="grid grid--items">
+          {items.map((item) => (
+            <ItemCard key={item.id} item={item} onToggleFavourite={handleFavourite} />
+          ))}
+        </div>
       </div>
     </>
   );

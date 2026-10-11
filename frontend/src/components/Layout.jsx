@@ -1,19 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
 
-// Shared shell for every authenticated page. The page itself is
-// rendered through <Outlet />, so pages never know about the sidebar
-// or navbar and the shell never knows about page content.
+/**
+ * Shell shared by every signed-in screen. Pages render through <Outlet />,
+ * so the shell never imports a page and pages never import the sidebar.
+ */
 export default function Layout() {
   return (
     <div className="layout">
       <Sidebar />
       <div className="main">
-        <Navbar />
-        <main className="content">
-          <Outlet />
-        </main>
+        <Outlet />
       </div>
     </div>
   );
