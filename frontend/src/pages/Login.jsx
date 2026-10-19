@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 import HeroArt from "../components/HeroArt";
 import Icon, { GoogleMark } from "../components/Icon";
+import { signIn } from "../services/session";
 
 /**
  * Login / Sign Up.
@@ -12,11 +13,16 @@ import Icon, { GoogleMark } from "../components/Icon";
  */
 export default function Login() {
   const [mode, setMode] = useState("login");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const isSignUp = mode === "signup";
 
   function handleSubmit(event) {
     event.preventDefault();
+    // No authentication yet: the name and email entered here become the
+    // signed-in identity, and every wardrobe is stored against it.
+    signIn({ name: isSignUp ? name : "", email });
     navigate("/dashboard");
   }
 
@@ -47,13 +53,27 @@ export default function Login() {
             {isSignUp && (
               <div className="field">
                 <label className="field__label" htmlFor="name">Full name</label>
-                <input id="name" type="text" placeholder="Jamie Anderson" required />
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="Your full name"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  required
+                />
               </div>
             )}
 
             <div className="field">
               <label className="field__label" htmlFor="email">Email address</label>
-              <input id="email" type="email" placeholder="jamie@email.com" required />
+              <input
+                id="email"
+                type="email"
+                placeholder="you@email.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+              />
             </div>
 
             <div className="field">

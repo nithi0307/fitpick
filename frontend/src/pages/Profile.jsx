@@ -3,13 +3,14 @@ import Card from "../components/Card";
 import Icon from "../components/Icon";
 import StatCard from "../components/StatCard";
 import Topbar from "../components/Topbar";
-import { USER } from "../components/user";
+import { currentUser } from "../services/session";
 import { BarList, DonutChart } from "../components/Charts";
 import { SWATCHES } from "../components/swatches";
 import { getAnalytics, getClothingItems, getDashboardStats } from "../services/api";
 
 /** Profile & Analytics: account details beside wardrobe insight. */
 export default function Profile() {
+  const user = currentUser();
   const [analytics, setAnalytics] = useState(null);
   const [dashboard, setDashboard] = useState(null);
   const [lastAdded, setLastAdded] = useState(null);
@@ -43,9 +44,9 @@ export default function Profile() {
               <section className="card">
                 <div className="profile-cover" />
                 <div className="profile-body">
-                  <span className="avatar avatar--lg" style={{ border: "3px solid #fff" }}>{USER.initials}</span>
-                  <h3 style={{ fontSize: 15, marginTop: 6 }}>{USER.name}</h3>
-                  <div className="row__sub">{USER.email}</div>
+                  <span className="avatar avatar--lg" style={{ border: "3px solid #fff" }}>{user.initials}</span>
+                  <h3 style={{ fontSize: 15, marginTop: 6 }}>{user.name}</h3>
+                  <div className="row__sub">{user.email}</div>
                   <span className="chip chip--amber" style={{ marginTop: 6 }}>
                     <Icon name="star" size={10} fill="currentColor" strokeWidth={0} /> Premium Member
                   </span>
@@ -90,23 +91,6 @@ export default function Profile() {
                 </div>
               </Card>
 
-              <Card title="Account Settings" bodyClass="card__body--tight">
-                <div className="rows">
-                  {[
-                    ["user", "Edit Profile"],
-                    ["bell", "Notifications"],
-                    ["settings", "Preferences"],
-                  ].map(([icon, label]) => (
-                    <button className="row" key={label} style={{ width: "100%", textAlign: "left" }}>
-                      <Icon name={icon} size={15} color="var(--muted)" />
-                      <span className="row__name">{label}</span>
-                      <span className="row__right">
-                        <Icon name="chevronRight" size={14} color="var(--muted)" />
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </Card>
             </div>
 
             {/* ---------- right column ---------- */}

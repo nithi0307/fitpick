@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Icon from "./Icon";
-import { USER } from "./user";
+import { currentUser, signOut } from "../services/session";
 
 /**
  * Account menu. Used twice: as the chip in the sidebar footer and as the
@@ -11,6 +11,7 @@ import { USER } from "./user";
 
 
 export default function UserMenu({ variant = "chip", align = "up" }) {
+  const user = currentUser();
   const [open, setOpen] = useState(false);
   const container = useRef(null);
   const navigate = useNavigate();
@@ -38,6 +39,12 @@ export default function UserMenu({ variant = "chip", align = "up" }) {
     navigate(path);
   }
 
+  function logOut() {
+    setOpen(false);
+    signOut();
+    navigate("/");
+  }
+
   return (
     <div className="menu" ref={container}>
       {variant === "chip" ? (
@@ -48,10 +55,10 @@ export default function UserMenu({ variant = "chip", align = "up" }) {
           aria-haspopup="menu"
           aria-expanded={open}
         >
-          <span className="avatar">{USER.initials}</span>
+          <span className="avatar">{user.initials}</span>
           <span className="userchip__text">
-            <span className="userchip__name">{USER.name}</span>
-            <span className="userchip__mail">{USER.email}</span>
+            <span className="userchip__name">{user.name}</span>
+            <span className="userchip__mail">{user.email}</span>
           </span>
           <Icon name={open ? "chevronDown" : "chevronUp"} size={14} color="var(--muted)" />
         </button>
@@ -64,30 +71,26 @@ export default function UserMenu({ variant = "chip", align = "up" }) {
           aria-expanded={open}
           aria-label="Account menu"
         >
-          {USER.initials}
+          {user.initials}
         </button>
       )}
 
       {open && (
         <div className={`menu__panel menu__panel--${align}`} role="menu">
           <div className="menu__head">
-            <span className="userchip__name">{USER.name}</span>
-            <span className="userchip__mail">{USER.email}</span>
+            <span className="userchip__name">{user.name}</span>
+            <span className="userchip__mail">{user.email}</span>
           </div>
 
           <button className="menu__item" role="menuitem" onClick={() => go("/profile")}>
             <Icon name="user" size={15} /> View profile
           </button>
-          <button className="menu__item" role="menuitem" onClick={() => go("/profile")}>
-            <Icon name="settings" size={15} /> Account settings
-          </button>
-
           <div className="menu__separator" />
 
           <button
             className="menu__item menu__item--danger"
             role="menuitem"
-            onClick={() => go("/")}
+            onClick={logOut}
           >
             <Icon name="logout" size={15} /> Log out
           </button>

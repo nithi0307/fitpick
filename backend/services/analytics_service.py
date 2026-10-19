@@ -17,15 +17,17 @@ def _counts(values: list[str]) -> list[CategoryCount]:
     return [CategoryCount(label=label, count=count) for label, count in ordered]
 
 
-def dashboard_stats(clothing: ClothingRepository, outfits: OutfitRepository) -> DashboardStats:
-    items = clothing.list()
+def dashboard_stats(
+    clothing: ClothingRepository, outfits: OutfitRepository, user_id: int = 1
+) -> DashboardStats:
+    items = clothing.list(user_id)
     cutoff = date.today() - timedelta(days=7)
     recent = [i for i in items if i.created_at and i.created_at >= cutoff]
     most_worn = max(items, key=lambda i: i.times_worn, default=None)
 
     return DashboardStats(
         total_items=len(items),
-        total_outfits=len(outfits.list()),
+        total_outfits=len(outfits.list(user_id)),
         favourites=sum(1 for i in items if i.is_favourite),
         most_worn=most_worn.name if most_worn else "—",
         most_worn_count=most_worn.times_worn if most_worn else 0,
@@ -34,8 +36,8 @@ def dashboard_stats(clothing: ClothingRepository, outfits: OutfitRepository) -> 
     )
 
 
-def analytics_stats(clothing: ClothingRepository) -> AnalyticsStats:
-    items = clothing.list()
+def analytics_stats(clothing: ClothingRepository, user_id: int = 1) -> AnalyticsStats:
+    items = clothing.list(user_id)
     categories = _counts([i.category for i in items])
     brands = _counts([i.brand for i in items if i.brand])
     total_wears = sum(i.times_worn for i in items)

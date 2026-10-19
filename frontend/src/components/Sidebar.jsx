@@ -54,14 +54,6 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar__foot">
-        <NavLink to="/profile" className="nav__link">
-          <Icon name="settings" size={16} />
-          Settings
-        </NavLink>
-        <NavLink to="/" className="nav__link">
-          <Icon name="logout" size={16} />
-          Log Out
-        </NavLink>
         <UserMenu variant="chip" align="up" />
       </div>
     </aside>

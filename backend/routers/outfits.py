@@ -2,6 +2,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException
 
+from deps import current_user_id
 from repositories import get_clothing_repository, get_outfit_repository
 from repositories.base import ClothingRepository, OutfitRepository
 from schemas import OCCASIONS, Outfit, OutfitCreate
@@ -10,8 +11,11 @@ router = APIRouter(prefix="/outfits", tags=["outfits"])
 
 
 @router.get("", response_model=list[Outfit])
-def list_outfits(repository: OutfitRepository = Depends(get_outfit_repository)):
-    return repository.list()
+def list_outfits(
+    repository: OutfitRepository = Depends(get_outfit_repository),
+    user_id: int = Depends(current_user_id),
+):
+    return repository.list(user_id)
 
 
 @router.get("/occasions", response_model=list[str])
@@ -24,24 +28,33 @@ def create_outfit(
     data: OutfitCreate,
     repository: OutfitRepository = Depends(get_outfit_repository),
     clothing: ClothingRepository = Depends(get_clothing_repository),
+    user_id: int = Depends(current_user_id),
 ):
     if not data.item_ids:
         raise HTTPException(status_code=422, detail="An outfit needs at least one item")
     for item_id in data.item_ids:
-        if clothing.get(item_id) is None:
+        if clothing.get(user_id, item_id) is None:
             raise HTTPException(status_code=422, detail=f"Unknown clothing item {item_id}")
-    return repository.add(data)
+    return repository.add(user_id, data)
 
 
 @router.post("/{outfit_id}/favourite", response_model=Outfit)
-def toggle_favourite(outfit_id: int, repository: OutfitRepository = Depends(get_outfit_repository)):
-    outfit = repository.toggle_favourite(outfit_id)
+def toggle_favourite(
+    outfit_id: int,
+    repository: OutfitRepository = Depends(get_outfit_repository),
+    user_id: int = Depends(current_user_id),
+):
+    outfit = repository.toggle_favourite(user_id, outfit_id)
     if outfit is None:
         raise HTTPException(status_code=404, detail="Outfit not found")
     return outfit
 
 
 @router.delete("/{outfit_id}", status_code=204)
-def delete_outfit(outfit_id: int, repository: OutfitRepository = Depends(get_outfit_repository)):
-    if not repository.delete(outfit_id):
+def delete_outfit(
+    outfit_id: int,
+    repository: OutfitRepository = Depends(get_outfit_repository),
+    user_id: int = Depends(current_user_id),
+):
+    if not repository.delete(user_id, outfit_id):
         raise HTTPException(status_code=404, detail="Outfit not found")

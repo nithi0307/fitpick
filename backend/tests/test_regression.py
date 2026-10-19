@@ -77,7 +77,7 @@ def test_reg09_counts_are_ordered_largest_first(empty_wardrobe):
     """The wardrobe breakdown chart depends on descending order."""
     clothing, outfits = empty_wardrobe
     for category in ["Tops", "Tops", "Tops", "Shoes", "Shoes", "Bottoms"]:
-        clothing.add(ClothingItemCreate(name=f"{category} item", category=category, colour="Black"))
+        clothing.add(1, ClothingItemCreate(name=f"{category} item", category=category, colour="Black"))
     stats = analytics_service.dashboard_stats(clothing, outfits)
     counts = [row.count for row in stats.breakdown]
     assert counts == sorted(counts, reverse=True)

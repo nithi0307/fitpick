@@ -96,6 +96,9 @@ export default function OutfitBuilder() {
           </div>
 
           <div className="builder__scroll">
+            {visible.length === 0 && (
+              <p className="empty">No pieces yet. Add clothing to build an outfit.</p>
+            )}
             {visible.map((item) => {
               const on = selected.includes(item.id);
               return (

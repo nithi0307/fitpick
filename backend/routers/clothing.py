@@ -6,6 +6,7 @@ HTTP responses. It holds no storage logic and no calculations.
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 
+from deps import current_user_id
 from repositories import get_clothing_repository
 from repositories.base import ClothingRepository
 from schemas import CATEGORIES, ClothingItem, ClothingItemCreate, ClothingItemUpdate
@@ -20,8 +21,9 @@ def list_clothing(
     season: str = "All",
     sort: str = "newest",
     repository: ClothingRepository = Depends(get_clothing_repository),
+    user_id: int = Depends(current_user_id),
 ):
-    items = repository.list()
+    items = repository.list(user_id)
 
     if search:
         needle = search.lower()
@@ -46,8 +48,12 @@ def list_categories():
 
 
 @router.get("/{item_id}", response_model=ClothingItem)
-def get_clothing(item_id: int, repository: ClothingRepository = Depends(get_clothing_repository)):
-    item = repository.get(item_id)
+def get_clothing(
+    item_id: int,
+    repository: ClothingRepository = Depends(get_clothing_repository),
+    user_id: int = Depends(current_user_id),
+):
+    item = repository.get(user_id, item_id)
     if item is None:
         raise HTTPException(status_code=404, detail="Clothing item not found")
     return item
@@ -55,11 +61,13 @@ def get_clothing(item_id: int, repository: ClothingRepository = Depends(get_clot
 
 @router.post("", response_model=ClothingItem, status_code=201)
 def create_clothing(
-    data: ClothingItemCreate, repository: ClothingRepository = Depends(get_clothing_repository)
+    data: ClothingItemCreate,
+    repository: ClothingRepository = Depends(get_clothing_repository),
+    user_id: int = Depends(current_user_id),
 ):
     if data.category not in CATEGORIES:
         raise HTTPException(status_code=422, detail=f"Category must be one of {CATEGORIES}")
-    return repository.add(data)
+    return repository.add(user_id, data)
 
 
 @router.put("/{item_id}", response_model=ClothingItem)
@@ -67,8 +75,9 @@ def update_clothing(
     item_id: int,
     data: ClothingItemUpdate,
     repository: ClothingRepository = Depends(get_clothing_repository),
+    user_id: int = Depends(current_user_id),
 ):
-    item = repository.update(item_id, data)
+    item = repository.update(user_id, item_id, data)
     if item is None:
         raise HTTPException(status_code=404, detail="Clothing item not found")
     return item
@@ -76,15 +85,21 @@ def update_clothing(
 
 @router.post("/{item_id}/favourite", response_model=ClothingItem)
 def toggle_favourite(
-    item_id: int, repository: ClothingRepository = Depends(get_clothing_repository)
+    item_id: int,
+    repository: ClothingRepository = Depends(get_clothing_repository),
+    user_id: int = Depends(current_user_id),
 ):
-    item = repository.toggle_favourite(item_id)
+    item = repository.toggle_favourite(user_id, item_id)
     if item is None:
         raise HTTPException(status_code=404, detail="Clothing item not found")
     return item
 
 
 @router.delete("/{item_id}", status_code=204)
-def delete_clothing(item_id: int, repository: ClothingRepository = Depends(get_clothing_repository)):
-    if not repository.delete(item_id):
+def delete_clothing(
+    item_id: int,
+    repository: ClothingRepository = Depends(get_clothing_repository),
+    user_id: int = Depends(current_user_id),
+):
+    if not repository.delete(user_id, item_id):
         raise HTTPException(status_code=404, detail="Clothing item not found")

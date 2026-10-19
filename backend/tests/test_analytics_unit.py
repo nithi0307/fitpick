@@ -18,8 +18,11 @@ def wardrobe():
     return InMemoryClothingRepository(seed=False), InMemoryOutfitRepository()
 
 
+USER = 1  # every fixture wardrobe belongs to one account
+
+
 def add(repo, name, category="Tops", colour="Black", brand="", price=0.0, worn=0, days_old=0):
-    item = repo.add(ClothingItemCreate(
+    item = repo.add(USER, ClothingItemCreate(
         name=name, category=category, colour=colour, brand=brand, price=price
     ))
     item.times_worn = worn

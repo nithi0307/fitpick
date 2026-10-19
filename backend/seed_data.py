@@ -1,4 +1,10 @@
-"""Sample wardrobe used by the in-memory repository and mirrored in seed.sql."""
+"""Sample wardrobe used by the in-memory repository and mirrored in seed.sql.
+
+The demo account owns this wardrobe. A person who signs in with any other
+email starts with an empty wardrobe of their own.
+"""
+
+DEMO_USER = ("Jamie Anderson", "jamie@email.com")
 
 CLOTHING_SEED = [
     # name, category, subcategory, colour, season, brand, size, price, tags, worn, fav

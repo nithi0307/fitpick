@@ -587,3 +587,15 @@ a.brand:hover { background: var(--bg-2); }
 
 .avatar--button { border: none; cursor: pointer; }
 .avatar--button:hover { background: var(--blue-dark); }
+
+.empty-state {
+  display: grid; justify-items: center; gap: 8px; text-align: center;
+  padding: 64px 24px;
+}
+.empty-state__icon {
+  width: 54px; height: 54px; border-radius: 16px;
+  background: var(--blue-soft); color: var(--blue);
+  display: grid; place-items: center; margin-bottom: 4px;
+}
+.empty-state h3 { font-size: 16px; }
+.empty-state p { font-size: 13px; color: var(--muted); max-width: 340px; margin-bottom: 8px; }

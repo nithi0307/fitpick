@@ -13,6 +13,12 @@ SEASONS = ["S/S", "F/W", "All Season"]
 OCCASIONS = ["Casual", "Office", "Date Night", "Weekend", "Formal", "Sport"]
 
 
+class User(BaseModel):
+    id: int
+    name: str
+    email: str
+
+
 class ClothingItemCreate(BaseModel):
     name: str = Field(min_length=1, max_length=100)
     category: str

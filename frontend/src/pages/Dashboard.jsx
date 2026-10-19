@@ -8,9 +8,11 @@ import StatCard from "../components/StatCard";
 import Topbar from "../components/Topbar";
 import { BarList } from "../components/Charts";
 import { getClothingItems, getDashboardStats, getOutfits } from "../services/api";
+import { currentUser } from "../services/session";
 
 /** Overview screen: headline figures, recent additions and quick actions. */
 export default function Dashboard() {
+  const user = currentUser();
   const [stats, setStats] = useState(null);
   const [recent, setRecent] = useState([]);
   const [outfits, setOutfits] = useState([]);
@@ -37,7 +39,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Topbar title="Dashboard" subtitle="Your wardrobe at a glance">
+      <Topbar title="Dashboard" subtitle={`Welcome back, ${user.name.split(" ")[0]}`}>
         <Link to="/add-clothing">
           <Button>
             <Icon name="plus" size={14} /> Add New Clothing
@@ -93,6 +95,9 @@ export default function Dashboard() {
                 bodyClass="card__body--tight"
               >
                 <div className="rows">
+                  {recent.length === 0 && (
+                    <p className="empty">Nothing added yet. Your newest pieces will show here.</p>
+                  )}
                   {recent.map((item) => (
                     <div className="row" key={item.id}>
                       <span className="row__thumb">
@@ -118,6 +123,9 @@ export default function Dashboard() {
 
               <Card title="Your Outfits" action={`${outfits.length} saved`} bodyClass="card__body--tight">
                 <div className="rows">
+                  {outfits.length === 0 && (
+                    <p className="empty">No saved outfits yet. Build one from your wardrobe.</p>
+                  )}
                   {outfits.map((outfit) => (
                     <Link className="row" key={outfit.id} to={`/outfit-builder?outfit=${outfit.id}`}>
                       <span style={{ display: "flex" }}>
@@ -183,7 +191,11 @@ export default function Dashboard() {
                 </Card>
 
                 <Card title="Wardrobe Breakdown">
-                  <BarList data={stats.breakdown} />
+                  {stats.breakdown.length === 0 ? (
+                    <p className="empty">Add clothing to see it broken down by category.</p>
+                  ) : (
+                    <BarList data={stats.breakdown} />
+                  )}
                 </Card>
 
                 {suggestion && (

@@ -36,6 +36,8 @@ export default function Wardrobe() {
     };
   }, [search, category, season, sort]);
 
+  const isFiltered = search !== "" || category !== "All" || season !== "All";
+
   async function handleFavourite(item) {
     const updated = await toggleClothingFavourite(item.id);
     setItems((current) => current.map((i) => (i.id === updated.id ? updated : i)));
@@ -107,7 +109,22 @@ export default function Wardrobe() {
           <p className="spinner-row">Could not reach the FitPick API. Please try again shortly.</p>
         )}
         {status === "ready" && items.length === 0 && (
-          <p className="empty">No pieces match these filters yet.</p>
+          isFiltered ? (
+            <p className="empty">No pieces match these filters.</p>
+          ) : (
+            <div className="empty-state">
+              <span className="empty-state__icon">
+                <Icon name="hanger" size={26} />
+              </span>
+              <h3>Your wardrobe is empty</h3>
+              <p>Add your first piece and it will appear here, sorted into its category.</p>
+              <Link to="/add-clothing">
+                <Button>
+                  <Icon name="plus" size={14} /> Add your first item
+                </Button>
+              </Link>
+            </div>
+          )
         )}
 
         <div className="grid grid--items">
