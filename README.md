@@ -92,6 +92,20 @@ fitpick/
 └── README.md
 ```
 
+## Accounts
+
+The login screen captures a name and email. There is no authentication yet —
+the identity is kept in the browser and sent with every request as
+`X-User-Email` / `X-User-Name`, so the backend can store each wardrobe against
+its owner in the `users` table.
+
+- Signing in with a **new email** creates an account with an **empty wardrobe**.
+- Signing in as `jamie@email.com`, or using the app with no session, shows the
+  seeded demo wardrobe of 12 items.
+
+Real sign-in with hashed passwords and sessions is listed under Future
+Enhancements.
+
 ## Testing
 
 ```bash
@@ -127,7 +141,9 @@ On first start the application applies `database/schema.sql` and, if the
 wardrobe is empty, loads `database/seed.sql`. Both steps are idempotent, so
 restarts and redeploys are safe.
 
-### Render
+### Render — one click
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/nithi0307/fitpick)
 
 `render.yaml` is a Blueprint that provisions the web service and a PostgreSQL
 database together:
