@@ -10,6 +10,7 @@ const MENU = [
   { to: "/dashboard", label: "Dashboard", icon: "grid" },
   { to: "/wardrobe", label: "My Wardrobe", icon: "hanger" },
   { to: "/outfit-builder", label: "Outfit Builder", icon: "layers" },
+  { to: "/fits", label: "My Fits", icon: "star" },
   { to: "/profile", label: "Analytics", icon: "chart" },
 ];
 

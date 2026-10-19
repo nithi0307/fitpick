@@ -78,6 +78,9 @@ class Outfit(OutfitCreate):
     id: int
     is_favourite: bool = False
     created_at: date | None = None
+    # filled in by the outfits router from the style service
+    score: int = 0
+    score_notes: list[str] = []
 
 
 class CategoryCount(BaseModel):

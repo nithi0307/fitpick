@@ -126,6 +126,23 @@ marked, and the manual *Add Clothing* form remains for anything not in the list.
 | `GET /catalogue` | The predefined pieces, optionally filtered by category |
 | `POST /catalogue/add` | Copy one catalogue piece into the caller's wardrobe |
 
+## Outfits and the style score
+
+Saved outfits appear on **My Fits** as *Fit 1*, *Fit 2*, … each with a score out
+of ten from `backend/services/style_service.py`. The score is a small
+**rule-based model — deterministic, not learned and not random**: the same
+pieces always produce the same number, and every point is explained on the card.
+
+| Rule | Points | Rewards |
+|---|---|---|
+| Coverage | 4 | Something on top, something below, shoes, plus a layer or accessory |
+| Colour | 3 | A neutral palette, or neutrals lifted by a single accent |
+| Season | 2 | Not mixing S/S with F/W pieces |
+| Occasion | 1 | At least one piece tagged for the occasion saved against |
+
+There is **no AI or machine learning anywhere in FitPick** — this is explicitly
+out of scope, and the score is arithmetic over the wardrobe's own fields.
+
 ## Testing
 
 ```bash
@@ -140,8 +157,8 @@ python3.13 -m venv .venv
 |---|---|
 | Integration (`tests/test_integration_*.py`) | 43 |
 | Regression (`tests/test_regression.py`) | 10 |
-| Unit (`tests/test_analytics_unit.py`) | 11 |
-| **Total** | **64** |
+| Unit (`tests/test_analytics_unit.py`, `tests/test_style_unit.py`) | 23 |
+| **Total** | **76** |
 
 The suite runs without a database: the repository factory returns the in-memory
 implementation unless `DATABASE_URL` is set.

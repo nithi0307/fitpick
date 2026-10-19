@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Wardrobe from "./pages/Wardrobe";
 import AddClothing from "./pages/AddClothing";
 import OutfitBuilder from "./pages/OutfitBuilder";
+import MyFits from "./pages/MyFits";
 import Profile from "./pages/Profile";
 
 /**
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/wardrobe" element={<Wardrobe />} />
           <Route path="/add-clothing" element={<AddClothing />} />
           <Route path="/outfit-builder" element={<OutfitBuilder />} />
+          <Route path="/fits" element={<MyFits />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>

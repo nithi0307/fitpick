@@ -78,6 +78,8 @@ export const createOutfit = (outfit) =>
 
 export const toggleOutfitFavourite = (id) => request(`/outfits/${id}/favourite`, { method: "POST" });
 
+export const deleteOutfit = (id) => request(`/outfits/${id}`, { method: "DELETE" });
+
 /* ---------- statistics ---------- */
 
 export const getDashboardStats = () => request("/stats/dashboard");

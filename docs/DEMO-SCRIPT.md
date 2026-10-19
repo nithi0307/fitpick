@@ -151,7 +151,16 @@ click **Remove**.
 > table — `outfit_items` — rather than a list stuffed into a column. The API
 > refuses an outfit with no items, and refuses any item id that doesn't exist.
 
-**Do:** Go back to **Dashboard** and show the outfit under **Your Outfits**.
+**Do:** It lands on **My Fits**. Point at the new card.
+
+**Say:**
+> Each saved outfit is numbered — Fit 1, Fit 2 — and scored out of ten. That
+> score is a rule-based model, not AI and not random: four points for coverage,
+> three for colour, two for season consistency, one for matching the occasion.
+> The same pieces always give the same score, and every point is spelled out
+> underneath so it can be argued with.
+
+**Do:** Point at a lower-scoring fit and read its reason aloud.
 
 ---
 
@@ -190,7 +199,7 @@ cd ~/Desktop/fitpick/backend
 ```
 
 **Say:**
-> Sixty-four tests — integration tests that drive the real app over HTTP, a
+> Seventy-six tests — integration tests that drive the real app over HTTP, a
 > regression suite for defects I'd already fixed once, and unit tests for the
 > calculations. They run in under a second because they use the in-memory
 > repository; the same code runs against PostgreSQL in Docker because both
@@ -227,6 +236,12 @@ cd ~/Desktop/fitpick/backend
 > One router on the backend and one page on the front end. The routers depend on
 > a repository interface, not on a database, so adding a feature doesn't touch
 > storage, and swapping storage doesn't touch any endpoint.
+
+**"Is the outfit rating AI?"**
+> No, and the report says so. It's a rule-based score in
+> `services/style_service.py` — coverage, colour harmony, season consistency and
+> occasion match. It's deterministic, so it's testable: twelve unit tests cover
+> the rules. Calling it AI would have been easy and dishonest.
 
 **"What was the hardest part?"**
 > Finding out that passing tests don't mean good tests. Mutation testing changed

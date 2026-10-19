@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../components/Button";
 import Garment from "../components/Garment";
 import Icon from "../components/Icon";
@@ -28,6 +28,7 @@ export default function OutfitBuilder() {
   const [favourite, setFavourite] = useState(true);
   const [message, setMessage] = useState("");
   const [params] = useSearchParams();
+  const navigate = useNavigate();
   const editing = params.get("outfit");
 
   useEffect(() => {
@@ -69,9 +70,10 @@ export default function OutfitBuilder() {
 
   async function save() {
     if (!chosen.length) return;
-    await createOutfit({ name, occasion, item_ids: selected });
-    setMessage(`Saved “${name}”`);
+    const saved = await createOutfit({ name, occasion, item_ids: selected });
+    setMessage(`Saved “${saved.name}” — scored ${saved.score}/10`);
     setSelected([]);
+    navigate("/fits");
   }
 
   return (

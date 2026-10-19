@@ -150,13 +150,17 @@ export default function Dashboard() {
                 </div>
               </Card>
 
-              <Card title="Your Outfits" action={`${outfits.length} saved`} bodyClass="card__body--tight">
+              <Card
+                title="Your Fits"
+                action={<Link to="/fits" className="card__action">View all <Icon name="chevronRight" size={13} /></Link>}
+                bodyClass="card__body--tight"
+              >
                 <div className="rows">
                   {outfits.length === 0 && (
                     <p className="empty">No saved outfits yet. Build one from your wardrobe.</p>
                   )}
                   {outfits.map((outfit) => (
-                    <Link className="row" key={outfit.id} to={`/outfit-builder?outfit=${outfit.id}`}>
+                    <Link className="row" key={outfit.id} to="/fits">
                       <span style={{ display: "flex" }}>
                         {outfit.item_ids.slice(0, 3).map((id, index) =>
                           itemsById[id] ? (
@@ -174,7 +178,7 @@ export default function Dashboard() {
                         <span className="row__name">{outfit.name}</span>
                         <br />
                         <span className="row__sub">
-                          {outfit.occasion} · {outfit.item_ids.length} pieces
+                          {outfit.occasion} · {outfit.item_ids.length} pieces · {outfit.score}/10
                         </span>
                       </span>
                       <span className="row__right">
