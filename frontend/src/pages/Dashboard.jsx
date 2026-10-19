@@ -48,7 +48,7 @@ export default function Dashboard() {
       <div className="content">
         {status === "loading" && <p className="spinner-row">Loading your wardrobe…</p>}
         {status === "error" && (
-          <p className="spinner-row">Could not reach the FitPick API on port 8000.</p>
+          <p className="spinner-row">Could not reach the FitPick API. Please try again shortly.</p>
         )}
 
         {stats && (

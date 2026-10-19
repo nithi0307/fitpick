@@ -86,7 +86,9 @@ fitpick/
 │   ├── design/               # diagrams (.drawio + .png), wireframes, design document
 │   ├── screenshots/          # application screens and test / build evidence
 │   └── *.pdf                 # project report and testing report
-├── docker-compose.yml
+├── Dockerfile                # production image (frontend + API in one service)
+├── docker-compose.yml        # local development (hot reload, separate services)
+├── render.yaml               # Render Blueprint: web service + PostgreSQL
 └── README.md
 ```
 
@@ -109,6 +111,46 @@ python3.13 -m venv .venv
 
 The suite runs without a database: the repository factory returns the in-memory
 implementation unless `DATABASE_URL` is set.
+
+## Deployment
+
+The repository contains a production `Dockerfile` that builds the React app and
+serves it from the FastAPI container, so the deployed system is **one service**
+with the site and its API on the same origin.
+
+```bash
+docker build -t fitpick .
+docker run -p 8000:8000 -e DATABASE_URL=postgresql://... fitpick
+```
+
+On first start the application applies `database/schema.sql` and, if the
+wardrobe is empty, loads `database/seed.sql`. Both steps are idempotent, so
+restarts and redeploys are safe.
+
+### Render
+
+`render.yaml` is a Blueprint that provisions the web service and a PostgreSQL
+database together:
+
+1. Push this repository to GitHub.
+2. In Render choose **New → Blueprint** and select the repository.
+3. Render reads `render.yaml`, creates `fitpick` and `fitpick-db`, and wires
+   `DATABASE_URL` between them. No manual environment variables are needed.
+
+The free web instance sleeps after inactivity, so the first request after a
+quiet period takes around a minute to wake.
+
+### Other hosts
+
+The same `Dockerfile` runs unchanged on Railway, Fly.io or any container
+platform. Supply a `DATABASE_URL`; the platform's `PORT` variable is honoured
+automatically.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `DATABASE_URL` | unset | PostgreSQL connection string. When unset the app uses in-memory storage. |
+| `PORT` | `8000` | Port the server binds to. |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | Extra CORS origins, only needed if the frontend is hosted separately. |
 
 ## Technology Stack
 

@@ -1,0 +1,11 @@
+**/node_modules
+**/.venv
+**/dist
+**/__pycache__
+**/.pytest_cache
+**/.mutmut-cache
+**/mutants
+docs
+.git
+.gitignore
+*.md

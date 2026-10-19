@@ -4,7 +4,11 @@
  * API can move or change shape without touching any screen.
  */
 
-const BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
+// In a deployed build the API is served from the same origin as the page, so
+// the base URL is empty. In development Vite serves the app on 5173 while the
+// API runs on 8000, so an absolute address is needed.
+const BASE_URL =
+  import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://localhost:8000" : "");
 
 async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {

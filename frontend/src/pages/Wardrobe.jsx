@@ -104,7 +104,7 @@ export default function Wardrobe() {
       <div className="content">
         {status === "loading" && <p className="spinner-row">Loading your wardrobe…</p>}
         {status === "error" && (
-          <p className="spinner-row">Could not reach the FitPick API on port 8000.</p>
+          <p className="spinner-row">Could not reach the FitPick API. Please try again shortly.</p>
         )}
         {status === "ready" && items.length === 0 && (
           <p className="empty">No pieces match these filters yet.</p>
