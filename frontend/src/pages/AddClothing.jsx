@@ -7,12 +7,12 @@ import { createClothingItem } from "../services/api";
 
 const CATEGORIES = ["Tops", "Bottoms", "Dresses", "Outerwear", "Shoes", "Accessories"];
 const SUBCATEGORIES = {
-  Tops: ["T-Shirt", "Shirt", "Knitwear", "Sweatshirt"],
-  Bottoms: ["Trousers", "Jeans", "Shorts"],
-  Dresses: ["Midi Dress", "Maxi Dress"],
-  Outerwear: ["Blazer", "Coat"],
-  Shoes: ["Sneakers", "Boots"],
-  Accessories: ["Bag", "Belt"],
+  Tops: ["T-Shirt", "Shirt", "Blouse", "Polo", "Knitwear", "Cardigan", "Sweatshirt", "Hoodie", "Tank Top", "Vest"],
+  Bottoms: ["Jeans", "Trousers", "Chinos", "Shorts", "Skirt", "Joggers", "Leggings"],
+  Dresses: ["Midi Dress", "Maxi Dress", "Mini Dress", "Shirt Dress", "Jumpsuit"],
+  Outerwear: ["Blazer", "Jacket", "Denim Jacket", "Coat", "Trench Coat", "Parka", "Gilet"],
+  Shoes: ["Sneakers", "Trainers", "Boots", "Chelsea Boots", "Loafers", "Brogues", "Heels", "Sandals"],
+  Accessories: ["Bag", "Backpack", "Belt", "Hat", "Cap", "Scarf", "Sunglasses", "Watch", "Jewellery"],
 };
 const SEASONS = ["S/S", "F/W", "All Season"];
 const SIZES = ["XS", "S", "M", "L", "XL"];

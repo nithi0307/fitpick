@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import Icon from "../components/Icon";
 import StatCard from "../components/StatCard";
 import Topbar from "../components/Topbar";
+import { USER } from "../components/user";
 import { BarList, DonutChart } from "../components/Charts";
 import { SWATCHES } from "../components/swatches";
 import { getAnalytics, getClothingItems, getDashboardStats } from "../services/api";
@@ -42,9 +43,9 @@ export default function Profile() {
               <section className="card">
                 <div className="profile-cover" />
                 <div className="profile-body">
-                  <span className="avatar avatar--lg" style={{ border: "3px solid #fff" }}>JA</span>
-                  <h3 style={{ fontSize: 15, marginTop: 6 }}>Jamie Anderson</h3>
-                  <div className="row__sub">jamie@email.com</div>
+                  <span className="avatar avatar--lg" style={{ border: "3px solid #fff" }}>{USER.initials}</span>
+                  <h3 style={{ fontSize: 15, marginTop: 6 }}>{USER.name}</h3>
+                  <div className="row__sub">{USER.email}</div>
                   <span className="chip chip--amber" style={{ marginTop: 6 }}>
                     <Icon name="star" size={10} fill="currentColor" strokeWidth={0} /> Premium Member
                   </span>

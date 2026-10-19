@@ -105,25 +105,140 @@ export const SHAPES = {
     handle: ["M76 86 C76 50, 124 50, 124 86"],
     rib: ["M46 160 L154 160 L156 164 C157 171, 152 174, 146 174 L54 174 C48 174, 43 171, 44 164 Z"],
   },
+
+  skirt: {
+    body: "M66 46 L134 46 L160 162 C122 175, 78 175, 40 162 Z",
+    rib: ["M66 46 L134 46 L135 64 L65 64 Z"],
+    line: ["M100 66 V168", "M80 66 L68 166", "M120 66 L132 166"],
+  },
+
+  hoodie: {
+    body:
+      "M72 58 C84 70, 116 70, 128 58 L152 68 L172 140 L150 147 L138 104 L138 158 " +
+      "C112 167, 88 167, 62 158 L62 104 L50 147 L28 140 L48 68 Z",
+    detail: ["M74 64 C77 46, 123 46, 126 64 L117 69 C111 59, 89 59, 83 69 Z"],
+    rib: [
+      "M62 150 C88 158, 112 158, 138 150 L138 158 C112 167, 88 167, 62 158 Z",
+      "M29 139 L51 146 L47 158 L25 151 Z",
+      "M171 139 L149 146 L153 158 L175 151 Z",
+    ],
+    line: ["M88 70 L90 106", "M112 70 L110 106"],
+    dot: [[90, 108], [110, 108]],
+  },
+
+  jacket: {
+    body:
+      "M74 44 L48 56 L32 122 L52 130 L62 94 L62 156 C86 165, 114 165, 138 156 " +
+      "L138 94 L148 130 L168 122 L152 56 L126 44 L100 72 Z",
+    detail: ["M74 44 L100 72 L86 47 Z", "M126 44 L100 72 L114 47 Z"],
+    line: ["M100 74 V154"],
+    dot: [[100, 100], [100, 126]],
+  },
+
+  heels: {
+    body:
+      "M34 150 C34 132, 44 121, 60 115 C78 109, 92 111, 104 103 " +
+      "C116 95, 134 96, 143 110 C149 121, 152 136, 154 150 Z " +
+      "M137 150 L150 150 L150 181 L143 181 Z",
+    rib: ["M32 146 L155 146 L155 155 C155 157, 153 158, 151 158 L36 158 C33 158, 32 156, 32 153 Z"],
+    line: ["M62 120 C80 116, 94 117, 106 110"],
+  },
+
+  hat: {
+    body:
+      "M54 122 C54 76, 146 76, 146 122 Z M30 120 L170 120 C172 120, 172 134, 166 134 " +
+      "L34 134 C28 134, 28 120, 30 120 Z",
+    rib: ["M56 108 L144 108 L145 122 L55 122 Z"],
+    line: ["M100 80 V108"],
+  },
+
+  scarf: {
+    body:
+      "M70 46 C70 66, 130 66, 130 46 L130 60 C130 80, 70 80, 70 60 Z " +
+      "M76 74 L96 74 L100 164 L72 164 Z M108 74 L128 74 L132 164 L104 164 Z",
+    rib: ["M72 156 L100 156 L100 164 L72 164 Z", "M104 156 L132 156 L132 164 L104 164 Z"],
+    line: ["M86 82 V154", "M118 82 V154"],
+  },
+
+  sunglasses: {
+    body:
+      "M28 82 C28 78, 33 76, 39 76 L84 76 C90 76, 93 80, 92 87 L89 110 " +
+      "C87 120, 77 126, 65 126 L51 126 C39 126, 30 118, 29 106 Z " +
+      "M172 82 C172 78, 167 76, 161 76 L116 76 C110 76, 107 80, 108 87 L111 110 " +
+      "C113 120, 123 126, 135 126 L149 126 C161 126, 170 118, 171 106 Z",
+    line: ["M92 85 C98 80, 102 80, 108 85", "M28 84 L10 95", "M172 84 L190 95"],
+  },
+
+  watch: {
+    body:
+      "M100 50 C128 50, 150 72, 150 100 C150 128, 128 150, 100 150 C72 150, 50 128, 50 100 " +
+      "C50 72, 72 50, 100 50 Z M78 28 L122 28 L118 60 L82 60 Z M82 140 L118 140 L122 174 L78 174 Z",
+    rib: ["M150 90 L162 90 L162 110 L150 110 Z"],
+    line: ["M100 70 V100 L120 112"],
+    dot: [[100, 100]],
+  },
 };
 
 export const BY_SUBCATEGORY = {
+  // Tops
   "t-shirt": "tshirt",
+  "tank top": "tshirt",
+  vest: "tshirt",
   shirt: "shirt",
+  blouse: "shirt",
+  polo: "shirt",
   knitwear: "sweater",
+  jumper: "sweater",
+  cardigan: "sweater",
   sweatshirt: "sweater",
+  hoodie: "hoodie",
+
+  // Bottoms
   trousers: "trousers",
+  chinos: "trousers",
+  joggers: "trousers",
+  leggings: "trousers",
   jeans: "jeans",
   shorts: "shorts",
-  blazer: "blazer",
-  coat: "coat",
-  sneakers: "sneaker",
-  boots: "boot",
+  skirt: "skirt",
+
+  // Dresses
   "midi dress": "dress",
   "maxi dress": "dress",
+  "mini dress": "dress",
+  "shirt dress": "dress",
+  jumpsuit: "dress",
   dress: "dress",
+
+  // Outerwear
+  blazer: "blazer",
+  gilet: "blazer",
+  jacket: "jacket",
+  "denim jacket": "jacket",
+  coat: "coat",
+  "trench coat": "coat",
+  parka: "coat",
+
+  // Shoes
+  sneakers: "sneaker",
+  trainers: "sneaker",
+  sandals: "sneaker",
+  boots: "boot",
+  "chelsea boots": "boot",
+  loafers: "boot",
+  brogues: "boot",
+  heels: "heels",
+
+  // Accessories
   bag: "bag",
+  backpack: "bag",
   belt: "bag",
+  hat: "hat",
+  cap: "hat",
+  scarf: "scarf",
+  sunglasses: "sunglasses",
+  watch: "watch",
+  jewellery: "watch",
 };
 
 export const BY_CATEGORY = {

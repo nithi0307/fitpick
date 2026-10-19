@@ -1,5 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Icon from "./Icon";
+import UserMenu from "./UserMenu";
 
 /**
  * Primary navigation. The link list is data, so adding a screen means one
@@ -14,7 +15,7 @@ const MENU = [
 
 const LIBRARY = [{ to: "/add-clothing", label: "Add Clothing", icon: "plus" }];
 
-function Link({ to, label, icon }) {
+function NavItem({ to, label, icon }) {
   return (
     <NavLink
       to={to}
@@ -29,25 +30,25 @@ function Link({ to, label, icon }) {
 export default function Sidebar() {
   return (
     <aside className="sidebar">
-      <div className="brand">
+      <Link to="/dashboard" className="brand" aria-label="FitPick home">
         <span className="brand__mark">
           <Icon name="sparkle" size={15} fill="currentColor" strokeWidth={0} />
         </span>
         <span className="brand__name">FitPick</span>
-      </div>
+      </Link>
 
       <nav>
         <div className="nav__group">
           <div className="nav__label">Menu</div>
           {MENU.map((link) => (
-            <Link key={link.to} {...link} />
+            <NavItem key={link.to} {...link} />
           ))}
         </div>
 
         <div className="nav__group">
           <div className="nav__label">Library</div>
           {LIBRARY.map((link) => (
-            <Link key={link.to} {...link} />
+            <NavItem key={link.to} {...link} />
           ))}
         </div>
       </nav>
@@ -61,14 +62,7 @@ export default function Sidebar() {
           <Icon name="logout" size={16} />
           Log Out
         </NavLink>
-        <div className="userchip">
-          <span className="avatar">JA</span>
-          <span>
-            <span className="userchip__name">Jamie Anderson</span>
-            <br />
-            <span className="userchip__mail">jamie@email.com</span>
-          </span>
-        </div>
+        <UserMenu variant="chip" align="up" />
       </div>
     </aside>
   );

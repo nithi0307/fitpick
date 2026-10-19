@@ -1,4 +1,5 @@
 import Icon from "./Icon";
+import UserMenu from "./UserMenu";
 
 /** Page heading strip: title, optional subtitle and right-hand actions. */
 export default function Topbar({ title, subtitle, children }) {
@@ -13,7 +14,7 @@ export default function Topbar({ title, subtitle, children }) {
         <button className="iconbtn" aria-label="Notifications">
           <Icon name="bell" size={15} />
         </button>
-        <span className="avatar">JA</span>
+        <UserMenu variant="avatar" align="down" />
       </div>
     </header>
   );

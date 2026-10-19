@@ -22,6 +22,8 @@ const PATHS = {
   close: "M18 6 6 18M6 6l12 12",
   arrowRight: "M5 12h14M13 6l6 6-6 6",
   chevronRight: "m9 6 6 6-6 6",
+  chevronUp: "m18 15-6-6-6 6",
+  chevronDown: "m6 9 6 6 6-6",
   sparkle: "M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z",
   shuffle: "M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5",
   star: "m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z",
