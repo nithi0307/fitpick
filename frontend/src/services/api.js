@@ -59,6 +59,16 @@ export const deleteClothingItem = (id) => request(`/clothing/${id}`, { method: "
 export const toggleClothingFavourite = (id) =>
   request(`/clothing/${id}/favourite`, { method: "POST" });
 
+/* ---------- catalogue ---------- */
+
+export const getCatalogue = (filters = {}) => request(`/catalogue${query(filters)}`);
+
+export const addFromCatalogue = (catalogueId) =>
+  request("/catalogue/add", {
+    method: "POST",
+    body: JSON.stringify({ catalogue_id: catalogueId }),
+  });
+
 /* ---------- outfits ---------- */
 
 export const getOutfits = () => request("/outfits");

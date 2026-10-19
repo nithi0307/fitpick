@@ -52,6 +52,22 @@ class ClothingItem(ClothingItemCreate):
     created_at: date | None = None
 
 
+class CatalogueItem(BaseModel):
+    id: int
+    name: str
+    category: str
+    subcategory: str
+    colour: str
+    season: str
+    brand: str
+    size: str
+    price: float
+
+
+class AddFromCatalogue(BaseModel):
+    catalogue_id: int
+
+
 class OutfitCreate(BaseModel):
     name: str = Field(min_length=1, max_length=100)
     occasion: str = "Casual"

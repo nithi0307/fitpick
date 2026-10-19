@@ -99,12 +99,26 @@ the identity is kept in the browser and sent with every request as
 `X-User-Email` / `X-User-Name`, so the backend can store each wardrobe against
 its owner in the `users` table.
 
-- Signing in with a **new email** creates an account with an **empty wardrobe**.
+- Signing in with a **new email** creates an account with an **empty wardrobe**,
+  which is filled by choosing pieces from the catalogue on the Dashboard.
 - Signing in as `jamie@email.com`, or using the app with no session, shows the
   seeded demo wardrobe of 12 items.
 
 Real sign-in with hashed passwords and sessions is listed under Future
 Enhancements.
+
+## Building a wardrobe
+
+The Dashboard carries a **clothing catalogue** of 33 ready-made garments across
+the six categories. Browsing it changes nothing; choosing a piece copies it into
+the signed-in account's wardrobe, so a wardrobe is built by picking rather than
+by typing in every garment or uploading photographs. Pieces already owned are
+marked, and the manual *Add Clothing* form remains for anything not in the list.
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /catalogue` | The predefined pieces, optionally filtered by category |
+| `POST /catalogue/add` | Copy one catalogue piece into the caller's wardrobe |
 
 ## Testing
 
@@ -118,10 +132,10 @@ python3.13 -m venv .venv
 
 | Suite | Tests |
 |---|---|
-| Integration (`tests/test_integration_*.py`) | 25 |
+| Integration (`tests/test_integration_*.py`) | 43 |
 | Regression (`tests/test_regression.py`) | 10 |
 | Unit (`tests/test_analytics_unit.py`) | 11 |
-| **Total** | **46** |
+| **Total** | **64** |
 
 The suite runs without a database: the repository factory returns the in-memory
 implementation unless `DATABASE_URL` is set.

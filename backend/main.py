@@ -18,13 +18,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from routers import clothing, outfits, stats
+from routers import catalogue, clothing, outfits, stats
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("fitpick")
 
 STATIC_DIR = pathlib.Path(__file__).parent / "static"
-API_PREFIXES = ("clothing", "outfits", "stats", "health", "docs", "redoc", "openapi.json")
+API_PREFIXES = (
+    "catalogue", "clothing", "outfits", "stats",
+    "health", "docs", "redoc", "openapi.json",
+)
 
 
 @asynccontextmanager
@@ -58,6 +61,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(catalogue.router)
 app.include_router(clothing.router)
 app.include_router(outfits.router)
 app.include_router(stats.router)

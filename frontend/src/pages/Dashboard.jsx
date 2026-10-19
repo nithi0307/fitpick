@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Garment from "../components/Garment";
 import Icon from "../components/Icon";
 import StatCard from "../components/StatCard";
+import CataloguePicker from "../components/CataloguePicker";
 import Topbar from "../components/Topbar";
 import { BarList } from "../components/Charts";
 import { getClothingItems, getDashboardStats, getOutfits } from "../services/api";
@@ -30,6 +31,18 @@ export default function Dashboard() {
   }, []);
 
   const [allItems, setAllItems] = useState([]);
+
+  const refresh = useCallback(() => {
+    Promise.all([getDashboardStats(), getClothingItems({ sort: "newest" }), getOutfits()])
+      .then(([dashboard, items, savedOutfits]) => {
+        setStats(dashboard);
+        setRecent(items.slice(0, 5));
+        setAllItems(items);
+        setOutfits(savedOutfits);
+      })
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     getClothingItems().then(setAllItems).catch(() => {});
   }, []);
@@ -55,6 +68,22 @@ export default function Dashboard() {
 
         {stats && (
           <>
+            {stats.total_items === 0 && (
+              <div style={{ marginBottom: 14 }}>
+            <Card
+              title="Clothing Catalogue"
+              action={`${allItems.length} in your wardrobe`}
+              className="catalogue"
+            >
+              <p className="catalogue__hint">
+                Pick the pieces you own and FitPick adds them to your wardrobe — no photos
+                or typing needed.
+              </p>
+              <CataloguePicker owned={allItems} onAdded={refresh} />
+            </Card>
+            </div>
+            )}
+
             <div className="grid grid--stats" style={{ marginBottom: 14 }}>
               <StatCard
                 icon="hanger"
@@ -220,6 +249,22 @@ export default function Dashboard() {
                 )}
               </div>
             </div>
+
+            {stats.total_items > 0 && (
+              <div style={{ marginTop: 14 }}>
+            <Card
+              title="Clothing Catalogue"
+              action={`${allItems.length} in your wardrobe`}
+              className="catalogue"
+            >
+              <p className="catalogue__hint">
+                Pick the pieces you own and FitPick adds them to your wardrobe — no photos
+                or typing needed.
+              </p>
+              <CataloguePicker owned={allItems} onAdded={refresh} />
+            </Card>
+            </div>
+            )}
           </>
         )}
       </div>
