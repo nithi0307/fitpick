@@ -175,6 +175,9 @@ a.brand:hover { background: var(--bg-2); }
 .btn--ghost:hover { background: var(--bg-2); }
 .btn--soft { background: var(--bg-2); color: var(--ink); }
 .btn--soft:hover { background: #e6e9ee; }
+
+.btn--danger { background: var(--pink); color: #fff; }
+.btn--danger:hover { background: #d8395a; }
 .btn--block { width: 100%; }
 .btn--lg { padding: 12px 18px; font-size: 14px; }
 .btn--between { justify-content: space-between; }
@@ -609,3 +612,24 @@ a.brand:hover { background: var(--bg-2); }
   background: var(--green-soft); color: var(--green);
   font-size: 10.5px; font-weight: 600;
 }
+
+.item__remove {
+  position: absolute; top: 8px; left: 8px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(4px);
+  display: grid; place-items: center; color: #9aa0ab;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+  opacity: 0; transition: opacity .14s, color .14s;
+}
+.item:hover .item__remove, .item__remove:focus-visible { opacity: 1; }
+.item__remove:hover { color: var(--pink); }
+
+.item__confirm {
+  position: absolute; inset: 0; z-index: 2;
+  background: rgba(255,255,255,.96); backdrop-filter: blur(3px);
+  display: grid; place-content: center; gap: 10px;
+  padding: 14px; text-align: center;
+}
+.item__confirm p { font-size: 12px; font-weight: 500; line-height: 1.4; }
+.item__confirm-actions { display: grid; gap: 6px; }
+.item__confirm-actions .btn { padding: 7px 12px; font-size: 12px; }

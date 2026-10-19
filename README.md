@@ -107,6 +107,12 @@ its owner in the `users` table.
 Real sign-in with hashed passwords and sessions is listed under Future
 Enhancements.
 
+## Demo
+
+A seven-minute walkthrough with what to click and what to say is in
+[`docs/DEMO-SCRIPT.md`](docs/DEMO-SCRIPT.md), including likely questions and
+what to do if something breaks mid-demo.
+
 ## Building a wardrobe
 
 The Dashboard carries a **clothing catalogue** of 33 ready-made garments across

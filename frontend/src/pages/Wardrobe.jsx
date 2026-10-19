@@ -4,7 +4,11 @@ import Button from "../components/Button";
 import Icon from "../components/Icon";
 import ItemCard from "../components/ItemCard";
 import Topbar from "../components/Topbar";
-import { getClothingItems, toggleClothingFavourite } from "../services/api";
+import {
+  deleteClothingItem,
+  getClothingItems,
+  toggleClothingFavourite,
+} from "../services/api";
 
 const CATEGORIES = ["All", "Tops", "Bottoms", "Dresses", "Outerwear", "Shoes", "Accessories"];
 const SEASONS = ["All", "S/S", "F/W", "All Season"];
@@ -41,6 +45,11 @@ export default function Wardrobe() {
   async function handleFavourite(item) {
     const updated = await toggleClothingFavourite(item.id);
     setItems((current) => current.map((i) => (i.id === updated.id ? updated : i)));
+  }
+
+  async function handleRemove(item) {
+    await deleteClothingItem(item.id);
+    setItems((current) => current.filter((i) => i.id !== item.id));
   }
 
   return (
@@ -129,7 +138,12 @@ export default function Wardrobe() {
 
         <div className="grid grid--items">
           {items.map((item) => (
-            <ItemCard key={item.id} item={item} onToggleFavourite={handleFavourite} />
+            <ItemCard
+              key={item.id}
+              item={item}
+              onToggleFavourite={handleFavourite}
+              onRemove={handleRemove}
+            />
           ))}
         </div>
       </div>

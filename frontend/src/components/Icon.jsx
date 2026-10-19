@@ -20,6 +20,7 @@ const PATHS = {
   bell: "M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0",
   check: "m20 6-11 11-5-5",
   close: "M18 6 6 18M6 6l12 12",
+  trash: "M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6",
   arrowRight: "M5 12h14M13 6l6 6-6 6",
   chevronRight: "m9 6 6 6-6 6",
   chevronUp: "m18 15-6-6-6 6",
