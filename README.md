@@ -149,16 +149,16 @@ out of scope, and the score is arithmetic over the wardrobe's own fields.
 cd backend
 python3.13 -m venv .venv
 .venv/bin/pip install -r requirements-dev.txt
-.venv/bin/python -m pytest        # 46 tests: unit, integration, regression
-.venv/bin/mutmut run              # mutation testing (100% mutation score)
+.venv/bin/python -m pytest        # 96 tests: unit, integration, regression
+.venv/bin/mutmut run              # mutation testing over services/ (98.5%)
 ```
 
 | Suite | Tests |
 |---|---|
 | Integration (`tests/test_integration_*.py`) | 43 |
 | Regression (`tests/test_regression.py`) | 10 |
-| Unit (`tests/test_analytics_unit.py`, `tests/test_style_unit.py`) | 23 |
-| **Total** | **76** |
+| Unit (`tests/test_analytics_unit.py`, `tests/test_style_unit.py`) | 43 |
+| **Total** | **96** |
 
 The suite runs without a database: the repository factory returns the in-memory
 implementation unless `DATABASE_URL` is set.
